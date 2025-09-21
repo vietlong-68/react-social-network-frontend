@@ -8,6 +8,8 @@ import {
   DatePicker,
   Select,
   message,
+  Row,
+  Col,
 } from "antd";
 import {
   UserOutlined,
@@ -55,7 +57,7 @@ const Register = () => {
       <Card
         style={{
           width: "100%",
-          maxWidth: "500px",
+          maxWidth: "700px",
           borderRadius: "12px",
           boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
         }}
@@ -74,39 +76,44 @@ const Register = () => {
           layout="vertical"
           size="large"
         >
-          <Form.Item
-            name="firstName"
-            rules={[
-              { required: true, message: "Vui lòng nhập tên!" },
-              { min: 2, message: "Tên phải có ít nhất 2 ký tự!" },
-              { max: 50, message: "Tên không được quá 50 ký tự!" },
-              { pattern: /^[a-zA-ZÀ-ỹ\s]+$/, message: "Tên chỉ được chứa chữ cái và khoảng trắng!" },
-            ]}
-          >
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="Tên (*)"
-              autoComplete="given-name"
-              style={{ borderRadius: "8px" }}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="lastName"
-            rules={[
-              { required: true, message: "Vui lòng nhập họ!" },
-              { min: 2, message: "Họ phải có ít nhất 2 ký tự!" },
-              { max: 50, message: "Họ không được quá 50 ký tự!" },
-              { pattern: /^[a-zA-ZÀ-ỹ\s]+$/, message: "Họ chỉ được chứa chữ cái và khoảng trắng!" },
-            ]}
-          >
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="Họ (*)"
-              autoComplete="family-name"
-              style={{ borderRadius: "8px" }}
-            />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="firstName"
+                rules={[
+                  { required: true, message: "Vui lòng nhập tên!" },
+                  { min: 2, message: "Tên phải có ít nhất 2 ký tự!" },
+                  { max: 50, message: "Tên không được quá 50 ký tự!" },
+                  { pattern: /^[a-zA-ZÀ-ỹ\s]+$/, message: "Tên chỉ được chứa chữ cái và khoảng trắng!" },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined />}
+                  placeholder="Tên (*)"
+                  autoComplete="given-name"
+                  style={{ borderRadius: "8px" }}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="lastName"
+                rules={[
+                  { required: true, message: "Vui lòng nhập họ!" },
+                  { min: 2, message: "Họ phải có ít nhất 2 ký tự!" },
+                  { max: 50, message: "Họ không được quá 50 ký tự!" },
+                  { pattern: /^[a-zA-ZÀ-ỹ\s]+$/, message: "Họ chỉ được chứa chữ cái và khoảng trắng!" },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined />}
+                  placeholder="Họ (*)"
+                  autoComplete="family-name"
+                  style={{ borderRadius: "8px" }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Form.Item
             name="email"
@@ -123,69 +130,77 @@ const Register = () => {
             />
           </Form.Item>
 
-          <Form.Item
-            name="gender"
-            rules={[{ required: false }]}
-          >
-            <Select
-              placeholder="Giới tính"
-              style={{ borderRadius: "8px" }}
-            >
-              <Option value="MALE">Nam</Option>
-              <Option value="FEMALE">Nữ</Option>
-              <Option value="OTHER">Khác</Option>
-            </Select>
-          </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="gender"
+                rules={[{ required: false }]}
+              >
+                <Select
+                  placeholder="Giới tính"
+                  style={{ borderRadius: "8px" }}
+                >
+                  <Option value="MALE">Nam</Option>
+                  <Option value="FEMALE">Nữ</Option>
+                  <Option value="OTHER">Khác</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="dateOfBirth"
+                rules={[{ required: false }]}
+              >
+                <DatePicker
+                  placeholder="Ngày sinh"
+                  style={{
+                    width: "100%",
+                    borderRadius: "8px",
+                  }}
+                  format="DD/MM/YYYY"
+                  disabledDate={(current) => {
+                    return current && current > dayjs().endOf("day");
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <Form.Item
-            name="dateOfBirth"
-            rules={[{ required: false }]}
-          >
-            <DatePicker
-              placeholder="Ngày sinh"
-              style={{
-                width: "100%",
-                borderRadius: "8px",
-              }}
-              format="DD/MM/YYYY"
-              disabledDate={(current) => {
-                return current && current > dayjs().endOf("day");
-              }}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="phoneNumber"
-            rules={[
-              {
-                pattern: /^[0-9+\-\s()]*$/,
-                message: "Số điện thoại không hợp lệ!",
-              },
-              { max: 15, message: "Số điện thoại không được quá 15 ký tự!" },
-            ]}
-          >
-            <Input
-              prefix={<PhoneOutlined />}
-              placeholder="Số điện thoại"
-              autoComplete="tel"
-              style={{ borderRadius: "8px" }}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="address"
-            rules={[
-              { max: 200, message: "Địa chỉ không được quá 200 ký tự!" },
-            ]}
-          >
-            <Input
-              prefix={<HomeOutlined />}
-              placeholder="Địa chỉ"
-              style={{ borderRadius: "8px" }}
-            />
-          </Form.Item>
-
-
+          <Row gutter={16}>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="phoneNumber"
+                rules={[
+                  {
+                    pattern: /^[0-9+\-\s()]*$/,
+                    message: "Số điện thoại không hợp lệ!",
+                  },
+                  { max: 15, message: "Số điện thoại không được quá 15 ký tự!" },
+                ]}
+              >
+                <Input
+                  prefix={<PhoneOutlined />}
+                  placeholder="Số điện thoại"
+                  autoComplete="tel"
+                  style={{ borderRadius: "8px" }}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="address"
+                rules={[
+                  { max: 200, message: "Địa chỉ không được quá 200 ký tự!" },
+                ]}
+              >
+                <Input
+                  prefix={<HomeOutlined />}
+                  placeholder="Địa chỉ"
+                  style={{ borderRadius: "8px" }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Form.Item
             name="password"
